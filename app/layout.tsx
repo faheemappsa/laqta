@@ -13,7 +13,7 @@ const arabicFont = IBM_Plex_Sans_Arabic({
 export const metadata: Metadata = {
   title: 'لقطة — اصنع صفحة بيع فاخرة خلال دقائق',
   description: 'لقطة من مُلهمات: منصة عربية لإنشاء صفحات بيع فاخرة للمنتجات والخدمات والعيادات والعقار خلال دقائق.',
-  metadataBase: new URL('https://laqta-six.vercel.app'),
+  metadataBase: new URL('https://laqta-page.vercel.app'),
   openGraph: {
     title: 'لقطة — صفحة بيع فاخرة خلال دقائق',
     description: 'حوّل منتجك أو خدمتك إلى صفحة جذابة قابلة للمشاركة والطلب فورًا.',
