@@ -15,7 +15,7 @@ export function LaqtaMarketingPage() {
   return (
     <main className="min-h-screen overflow-hidden pb-16">
       <header className="laqta-shell flex items-center justify-between py-6">
-        <a href="/" className="text-2xl font-black tracking-tight">لقطة</a>
+        <a href="/" className="text-2xl font-black">لقطة</a>
         <a href="/create" className="btn-secondary text-sm font-bold">جرّبها الآن</a>
       </header>
 
@@ -27,7 +27,7 @@ export function LaqtaMarketingPage() {
           </div>
 
           <div className="space-y-5">
-            <h1 className="max-w-4xl text-5xl font-black leading-[1.08] tracking-tight sm:text-7xl">
+            <h1 className="max-w-4xl text-5xl font-black leading-[1.18] sm:text-7xl sm:leading-[1.16]">
               صفحة بيع فاخرة لمنتجك خلال دقائق.
             </h1>
             <p className="max-w-2xl text-lg leading-9 text-[#6d5943] sm:text-2xl">
@@ -84,7 +84,7 @@ export function LaqtaMarketingPage() {
       <section id="how" className="laqta-shell py-14">
         <div className="mb-8 max-w-2xl">
           <p className="mb-3 text-sm font-black text-[#8b5e34]">آلية العمل</p>
-          <h2 className="text-4xl font-black sm:text-5xl">من الفكرة إلى رابط جاهز.</h2>
+          <h2 className="text-4xl font-black leading-tight sm:text-5xl">من الفكرة إلى رابط جاهز.</h2>
         </div>
         <div className="grid gap-4 md:grid-cols-3">
           {steps.map(([num, title, text]) => (
@@ -101,7 +101,7 @@ export function LaqtaMarketingPage() {
         <div className="glass grid gap-8 rounded-[42px] p-8 sm:p-12 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
             <p className="mb-3 text-sm font-black text-[#8b5e34]">إطلاق تجريبي</p>
-            <h2 className="text-3xl font-black sm:text-5xl">جرّبها الآن وخلّنا نسمع رأيك.</h2>
+            <h2 className="text-3xl font-black leading-tight sm:text-5xl">جرّبها الآن وخلّنا نسمع رأيك.</h2>
             <p className="mt-4 max-w-2xl text-lg leading-9 text-[#6d5943]">
               التجربة مخصصة لقياس الاحتياج الحقيقي لأصحاب المتاجر الصغيرة، البراندات، العقار، العيادات، والخدمات.
             </p>
