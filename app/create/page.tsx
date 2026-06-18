@@ -39,12 +39,38 @@ export default function CreatePage() {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [createdUrl, setCreatedUrl] = useState('');
+  const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
+
+  function resetForm() {
+    setBrandName('');
+    setTitle('');
+    setDescription('');
+    setPrice('');
+    setFeatureOne('');
+    setFeatureTwo('');
+    setFeatureThree('');
+    setCompetitorEdge('');
+    setCtaType('whatsapp');
+    setCtaValue('');
+    setImageFiles([]);
+    setCreatedUrl('');
+    setCopied(false);
+    setError('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function handleCopy() {
+    if (!createdUrl) return;
+    await navigator.clipboard?.writeText(createdUrl);
+    setCopied(true);
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError('');
     setCreatedUrl('');
+    setCopied(false);
 
     if (!title.trim() || !description.trim() || !ctaValue.trim()) {
       setError('العنوان والوصف ورقم الطلب مطلوبة.');
@@ -81,9 +107,12 @@ export default function CreatePage() {
 
   return (
     <main className="min-h-screen pb-16">
-      <header className="laqta-shell flex items-center justify-between py-5">
+      <header className="laqta-shell flex items-center justify-between gap-3 py-5">
         <a href="/" className="text-2xl font-black">لقطة</a>
-        <span className="rounded-full bg-white/70 px-4 py-2 text-sm font-black text-[#7f1d3a]">إنشاء صفحة</span>
+        <nav className="flex items-center gap-2">
+          <a href="/" className="rounded-full bg-white/70 px-4 py-2 text-sm font-black text-[#6d5943]">الرئيسية</a>
+          <span className="rounded-full bg-white/70 px-4 py-2 text-sm font-black text-[#7f1d3a]">إنشاء صفحة</span>
+        </nav>
       </header>
 
       <section className="laqta-shell grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
@@ -91,6 +120,7 @@ export default function CreatePage() {
           <p className="mb-3 text-sm font-black text-[#8b5e34]">منتج لقطة</p>
           <h1 className="text-4xl font-black leading-tight sm:text-6xl">اصنع صفحة بيع فاخرة خلال دقائق.</h1>
           <p className="mt-4 text-lg leading-9 text-[#6d5943]">عبّي بيانات بسيطة، ارفع حتى ٣ صور، وخذ رابط جاهز ترسله للعميل أو تستخدمه في إعلانك.</p>
+          <a href="/" className="btn-secondary mt-5">الرجوع للرئيسية</a>
         </div>
 
         <form onSubmit={handleSubmit} className="glass rounded-[36px] p-5 sm:p-7">
@@ -125,10 +155,15 @@ export default function CreatePage() {
 
             {error ? <div className="rounded-3xl bg-red-50 p-4 text-sm font-bold text-red-700">{error}</div> : null}
             {createdUrl ? (
-              <div className="rounded-3xl bg-green-50 p-4 text-sm font-bold text-green-800">
-                <p className="mb-2">تم إنشاء اللقطة بنجاح:</p>
-                <a className="block break-all underline" href={createdUrl} target="_blank" rel="noreferrer">{createdUrl}</a>
-                <button type="button" className="mt-3 rounded-full bg-green-700 px-4 py-2 text-white" onClick={() => navigator.clipboard?.writeText(createdUrl)}>نسخ الرابط</button>
+              <div className="rounded-[32px] bg-green-50 p-4 text-sm font-bold text-green-900 ring-1 ring-green-200">
+                <p className="mb-2 text-lg">تم إنشاء اللقطة بنجاح ✅</p>
+                <a className="block break-all rounded-2xl bg-white/80 p-3 underline" href={createdUrl} target="_blank" rel="noreferrer">{createdUrl}</a>
+                <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                  <a className="grid min-h-12 place-items-center rounded-full bg-[#2f8f55] px-4 py-2 text-center text-white" href={createdUrl} target="_blank" rel="noreferrer">فتح اللقطة</a>
+                  <button type="button" className="rounded-full bg-[#3f2b18] px-4 py-2 text-white" onClick={handleCopy}>{copied ? 'تم النسخ' : 'نسخ الرابط'}</button>
+                  <button type="button" className="rounded-full bg-white px-4 py-2 text-[#3f2b18] ring-1 ring-black/10" onClick={resetForm}>إنشاء لقطة جديدة</button>
+                </div>
+                <a href="/" className="mt-3 block text-center underline">الرجوع للصفحة الرئيسية</a>
               </div>
             ) : null}
 
