@@ -12,6 +12,7 @@ export type LandingRow = {
   features: string[];
   competitor_edge: string | null;
   main_image_url: string | null;
+  gallery_urls?: string[] | null;
   cta_type: 'whatsapp' | 'link';
   cta_value: string;
   views_count: number;
@@ -35,10 +36,14 @@ function apiHeaders(key: string, extra?: Record<string, string>) {
   };
 }
 
-export async function uploadLandingImage(file: File, slug: string) {
-  const { url, key } = getConfig();
+function safeExtension(file: File) {
   const extension = file.name.split('.').pop()?.toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
-  const path = `${slug}/${Date.now()}.${extension}`;
+  return extension.slice(0, 8) || 'jpg';
+}
+
+export async function uploadLandingImage(file: File, folder: string, index = 1) {
+  const { url, key } = getConfig();
+  const path = `${folder}/image-${index}-${Date.now()}.${safeExtension(file)}`;
 
   const response = await fetch(`${url}/storage/v1/object/laqta-images/${path}`, {
     method: 'PUT',
