@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { LandingView } from '../../../components/LandingView';
+import { GeneratedLandingView } from '../../../components/GeneratedLandingView';
 import { getLandingBySlug } from '../../../lib/supabaseRest';
 import type { LaqtaData } from '../../../types';
 
@@ -58,5 +58,5 @@ export default async function LandingPage({ params }: PageProps) {
 
   if (!data) notFound();
 
-  return <LandingView data={data} />;
+  return <GeneratedLandingView data={data} />;
 }
