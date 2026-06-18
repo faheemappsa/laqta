@@ -11,10 +11,15 @@ type PageProps = {
   };
 };
 
-function toLaqtaData(row: Awaited<ReturnType<typeof getLandingBySlug>>): LaqtaData | null {
+type LandingPageData = LaqtaData & {
+  galleryUrls?: string[];
+};
+
+function toLaqtaData(row: Awaited<ReturnType<typeof getLandingBySlug>>): LandingPageData | null {
   if (!row) return null;
 
   const features = Array.isArray(row.features) ? row.features : [];
+  const galleryUrls = Array.isArray(row.gallery_urls) ? row.gallery_urls : [];
 
   return {
     type: row.business_type,
@@ -23,6 +28,7 @@ function toLaqtaData(row: Awaited<ReturnType<typeof getLandingBySlug>>): LaqtaDa
     description: row.description,
     price: row.price || undefined,
     mainImageUrl: row.main_image_url || undefined,
+    galleryUrls,
     featureOne: features[0] || 'عرض واضح ومباشر',
     featureTwo: features[1] || 'صفحة مصممة للجوال',
     featureThree: features[2] || 'زر طلب سريع',
