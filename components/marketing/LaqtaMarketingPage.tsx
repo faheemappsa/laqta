@@ -1,237 +1,216 @@
 export function LaqtaMarketingPage() {
-  const useCases = ['منتج واحد', 'عيادة أو مركز', 'عقار أو مخطط', 'خدمة احترافية'];
+  const useCases = ['منتج واحد', 'عيادة', 'عقار', 'خدمة'];
 
   const steps = [
-    ['01', 'املأ التفاصيل', 'اسم المنتج، السعر، المميزات، صورة واحدة، ورابط الطلب.'],
-    ['02', 'تتكوّن اللقطة', 'نحوّل بياناتك إلى صفحة بيع فاخرة ومجهزة للجوال.'],
-    ['03', 'انشر الرابط', 'خذ رابطًا جاهزًا وشاركه في واتساب، سناب، تيك توك أو إعلانك.'],
+    ['01', 'املأ التفاصيل', 'اسم المنتج، السعر، المميزات، صورة، ورابط الطلب.'],
+    ['02', 'تتكوّن اللقطة', 'نحوّل بياناتك إلى صفحة بيع فاخرة ومهيّأة للجوال.'],
+    ['03', 'انشر الرابط', 'انسخ الرابط وشاركه في واتساب أو سناب أو إعلانك.'],
   ];
 
   return (
     <>
       <style>{`
-        @keyframes orbitOne {
-          0%, 100% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-26px) rotate(2.5deg); }
+        @keyframes soft-orbit {
+          0%, 100% { transform: translate3d(0,0,0) rotate(0deg); }
+          50% { transform: translate3d(0,-14px,0) rotate(1.4deg); }
         }
-        @keyframes orbitTwo {
-          0%, 100% { transform: translateY(0) rotate(0deg); }
-          35% { transform: translateY(-34px) rotate(-2deg); }
-          70% { transform: translateY(-12px) rotate(1deg); }
+        @keyframes slow-orbit {
+          0%, 100% { transform: translate3d(0,0,0) rotate(0deg); }
+          40% { transform: translate3d(0,-22px,0) rotate(-1.2deg); }
+          75% { transform: translate3d(0,-7px,0) rotate(.8deg); }
         }
-        @keyframes orbitThree {
-          0%, 100% { transform: translateY(0) scale(1); }
-          50% { transform: translateY(-18px) scale(1.035); }
+        @keyframes phone-stage {
+          0%, 100% { transform: rotateY(-9deg) rotateX(5deg) translateY(0); }
+          50% { transform: rotateY(-4deg) rotateX(2deg) translateY(-10px); }
         }
-        @keyframes phoneMagic {
-          0%, 100% { transform: rotateY(-12deg) rotateX(7deg) translateY(0); }
-          25% { transform: rotateY(-5deg) rotateX(3deg) translateY(-8px); }
-          50% { transform: rotateY(-15deg) rotateX(8deg) translateY(-15px); }
-          75% { transform: rotateY(-8deg) rotateX(4deg) translateY(-8px); }
+        @keyframes ring-breathe {
+          0%, 100% { opacity: .18; transform: translate(-50%, -50%) rotateX(76deg) scale(.9); }
+          50% { opacity: .55; transform: translate(-50%, -50%) rotateX(76deg) scale(1.05); }
         }
-        @keyframes ringGlow {
-          0%, 100% { opacity: .25; transform: translate(-50%, -50%) rotateX(74deg) scale(.92); }
-          50% { opacity: .7; transform: translate(-50%, -50%) rotateX(74deg) scale(1.06); }
+        @keyframes build-card {
+          0%, 20% { opacity: 0; transform: translateY(14px) scale(.96); }
+          48%, 100% { opacity: 1; transform: translateY(0) scale(1); }
         }
-        @keyframes builderIn {
-          0%, 15% { opacity: 0; transform: translateY(18px) scale(.94); }
-          45%, 100% { opacity: 1; transform: translateY(0) scale(1); }
+        @keyframes sweep {
+          0% { opacity: 0; transform: translateX(140%) rotate(18deg); }
+          35% { opacity: .7; }
+          100% { opacity: 0; transform: translateX(-170%) rotate(18deg); }
         }
-        @keyframes shineSweep {
-          0% { transform: translateX(145%) rotate(18deg); opacity: 0; }
-          35% { opacity: .85; }
-          100% { transform: translateX(-170%) rotate(18deg); opacity: 0; }
+        @keyframes aura {
+          0%, 100% { transform: translate(0,0) scale(1); }
+          50% { transform: translate(18px,-16px) scale(1.06); }
         }
-        @keyframes auraMove {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(18px, -16px) scale(1.08); }
+        @keyframes pop-in {
+          from { opacity: 0; transform: translateY(16px) scale(.98); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
         }
-        @keyframes tinyBounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-        .scene-perspective { perspective: 1300px; }
+        .stage-perspective { perspective: 1200px; }
         .preserve-3d { transform-style: preserve-3d; }
-        .float-one { animation: orbitOne 7.2s ease-in-out infinite; }
-        .float-two { animation: orbitTwo 8.8s ease-in-out infinite; }
-        .float-three { animation: orbitThree 6.4s ease-in-out infinite; }
-        .phone-magic { animation: phoneMagic 12s ease-in-out infinite; }
-        .ring-one { animation: ringGlow 5s ease-in-out infinite; }
-        .ring-two { animation: ringGlow 6.5s ease-in-out infinite; animation-delay: 1.3s; }
-        .aura-move { animation: auraMove 9s ease-in-out infinite; }
-        .builder-1 { animation: builderIn 3.8s ease-in-out infinite; }
-        .builder-2 { animation: builderIn 3.8s ease-in-out infinite; animation-delay: .35s; }
-        .builder-3 { animation: builderIn 3.8s ease-in-out infinite; animation-delay: .7s; }
-        .builder-4 { animation: builderIn 3.8s ease-in-out infinite; animation-delay: 1.05s; }
-        .shine-card::after {
+        .float-soft { animation: soft-orbit 7s ease-in-out infinite; }
+        .float-slow { animation: slow-orbit 8.5s ease-in-out infinite; }
+        .phone-stage { animation: phone-stage 10s ease-in-out infinite; }
+        .ring-a { animation: ring-breathe 5.5s ease-in-out infinite; }
+        .ring-b { animation: ring-breathe 7s ease-in-out infinite; animation-delay: 1.1s; }
+        .build-1 { animation: build-card 3.8s ease-in-out infinite; }
+        .build-2 { animation: build-card 3.8s ease-in-out infinite; animation-delay: .35s; }
+        .build-3 { animation: build-card 3.8s ease-in-out infinite; animation-delay: .7s; }
+        .build-4 { animation: build-card 3.8s ease-in-out infinite; animation-delay: 1.05s; }
+        .shine::after {
           content: '';
           position: absolute;
-          inset: -30% auto -30% 22%;
-          width: 82px;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent);
-          animation: shineSweep 5.4s ease-in-out infinite;
+          inset: -28% auto -28% 16%;
+          width: 76px;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,.58), transparent);
+          animation: sweep 5.2s ease-in-out infinite;
         }
-        .tiny-bounce { animation: tinyBounce 3.2s ease-in-out infinite; }
+        .aura { animation: aura 9s ease-in-out infinite; }
+        .pop-in { animation: pop-in .75s cubic-bezier(.2,.9,.2,1) both; }
         @media (max-width: 640px) {
-          .mobile-scale { transform: scale(.84); transform-origin: center; }
+          .phone-wrap { transform: scale(.83); transform-origin: center top; }
+          .hide-mobile-card { display: none; }
         }
       `}</style>
 
-      <main className="relative min-h-screen overflow-hidden pb-16">
+      <main className="relative min-h-screen overflow-hidden bg-[linear-gradient(145deg,#fffaf2_0%,#f1e2cf_46%,#ead7c2_100%)] pb-12 text-[#21180f]">
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="aura-move absolute -left-40 -top-40 h-[620px] w-[620px] rounded-full bg-indigo-300/20 blur-3xl" />
-          <div className="aura-move absolute -right-44 top-28 h-[560px] w-[560px] rounded-full bg-[#c7a46a]/30 blur-3xl" style={{ animationDelay: '1.7s' }} />
-          <div className="absolute bottom-0 left-1/3 h-[520px] w-[520px] rounded-full bg-blue-300/10 blur-3xl" />
+          <div className="aura absolute -left-44 -top-44 h-[560px] w-[560px] rounded-full bg-[#7f1d3a]/16 blur-3xl" />
+          <div className="aura absolute -right-52 top-24 h-[620px] w-[620px] rounded-full bg-[#f0b45b]/28 blur-3xl" style={{ animationDelay: '1.4s' }} />
+          <div className="absolute bottom-0 left-1/4 h-[520px] w-[520px] rounded-full bg-[#4c1d95]/10 blur-3xl" />
+          <div className="absolute inset-0 opacity-[0.18]" style={{ backgroundImage: 'linear-gradient(rgba(70,45,25,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(70,45,25,.12) 1px, transparent 1px)', backgroundSize: '42px 42px' }} />
         </div>
 
-        <header className="laqta-shell relative z-20 flex items-center justify-between py-6">
+        <header className="laqta-shell relative z-20 flex items-center justify-between py-5 sm:py-6">
           <a href="/" className="text-2xl font-black">لقطة</a>
-          <a href="/create" className="btn-secondary text-sm font-bold">جرّبها الآن</a>
+          <a href="/create" className="rounded-full bg-white/70 px-5 py-3 text-sm font-black text-[#2b1b12] shadow-[0_14px_40px_rgba(70,45,25,.12)] backdrop-blur-xl transition hover:-translate-y-0.5">جرّبها الآن</a>
         </header>
 
-        <section className="laqta-shell relative z-10 grid min-h-[80vh] items-center gap-8 py-8 lg:grid-cols-[.95fr_1.05fr] lg:gap-12">
-          <div className="fade-up space-y-7">
-            <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200/50 bg-white/55 px-4 py-2 text-sm font-black text-[#5f4b36] shadow-sm backdrop-blur-xl">
-              <span className="grid h-6 w-6 place-items-center rounded-full bg-gradient-to-br from-indigo-500 to-[#8b5e34] text-xs text-white">✦</span>
+        <section className="laqta-shell relative z-10 grid items-center gap-5 pt-2 sm:pt-8 lg:grid-cols-[.88fr_1.12fr] lg:gap-12">
+          <div className="pop-in space-y-5 text-center lg:text-right">
+            <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-[#7f1d3a]/15 bg-white/65 px-4 py-2 text-sm font-black text-[#6d4a32] shadow-sm backdrop-blur-xl lg:mx-0">
+              <span className="grid h-7 w-7 place-items-center rounded-full bg-gradient-to-br from-[#7f1d3a] to-[#f0b45b] text-xs text-white">✦</span>
               تجربة مجانية لأصحاب المنتجات والخدمات
             </div>
 
-            <div className="space-y-5">
-              <h1 className="max-w-4xl text-5xl font-black leading-[1.18] sm:text-7xl sm:leading-[1.14]">
+            <div className="space-y-4">
+              <h1 className="mx-auto max-w-[760px] text-[2.75rem] font-black leading-[1.06] sm:text-7xl lg:mx-0">
                 صفحة بيع
-                <span className="block bg-gradient-to-l from-indigo-600 via-[#8b5e34] to-[#3f2b18] bg-clip-text text-transparent">
-                  تُشبه إعلانًا فاخرًا.
+                <span className="block bg-gradient-to-l from-[#7f1d3a] via-[#9a5b2f] to-[#2d160c] bg-clip-text text-transparent">
+                  تشبه إعلانًا فاخرًا.
                 </span>
               </h1>
-              <p className="max-w-2xl text-lg leading-9 text-[#6d5943] sm:text-2xl">
-                لقطة من مُلهمات تصنع لك صفحة مبهرة للمنتج أو الخدمة أو العقار أو العيادة، مع رابط مباشر للواتساب أو الدفع.
+              <p className="mx-auto max-w-2xl text-[1.08rem] leading-9 text-[#72583e] sm:text-2xl lg:mx-0">
+                لقطة تصنع لك صفحة مبهرة للمنتج أو الخدمة أو العقار أو العيادة، مع رابط مباشر للواتساب أو الدفع.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-3">
-              <a href="/create" className="btn-primary text-base font-bold">اصنع لقطتك الآن</a>
-              <a href="#how" className="btn-secondary font-bold">شاهد كيف تعمل</a>
+            <div className="flex justify-center gap-3 lg:justify-start">
+              <a href="/create" className="grid min-h-14 flex-1 place-items-center rounded-full bg-gradient-to-l from-[#7f1d3a] to-[#6b3d1f] px-5 py-4 text-base font-black text-white shadow-[0_20px_50px_rgba(127,29,58,.22)] transition hover:-translate-y-1 sm:flex-none sm:px-8">اصنع لقطتك الآن</a>
+              <a href="#how" className="grid min-h-14 flex-1 place-items-center rounded-full bg-white/72 px-5 py-4 text-base font-black text-[#2d160c] shadow-[0_18px_44px_rgba(70,45,25,.12)] backdrop-blur-xl transition hover:-translate-y-1 sm:flex-none sm:px-8">كيف تعمل؟</a>
             </div>
 
-            <div className="grid max-w-xl grid-cols-2 gap-3 sm:grid-cols-4">
-              {useCases.map((item, index) => (
-                <div key={item} className="glass rounded-2xl px-3 py-4 text-center text-sm font-black text-[#5f4b36] shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-glow" style={{ animationDelay: `${index * 120}ms` }}>
+            <div className="grid grid-cols-4 gap-2 pt-1 sm:max-w-xl lg:max-w-lg">
+              {useCases.map((item) => (
+                <div key={item} className="rounded-[22px] bg-white/66 px-2 py-3 text-center text-sm font-black text-[#6d4a32] shadow-[0_16px_36px_rgba(70,45,25,.10)] backdrop-blur-xl sm:px-4 sm:text-base">
                   {item}
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="scene-perspective relative min-h-[650px] overflow-visible lg:min-h-[690px]">
-            <div className="mobile-scale absolute inset-0 grid place-items-center preserve-3d">
-              <div className="ring-one absolute left-1/2 top-1/2 h-[420px] w-[420px] rounded-full border border-indigo-400/30" />
-              <div className="ring-two absolute left-1/2 top-1/2 h-[560px] w-[560px] rounded-full border border-[#c7a46a]/35" />
-              <div className="absolute left-1/2 top-1/2 h-[310px] w-[310px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-indigo-500/15 via-[#c7a46a]/15 to-transparent blur-2xl" />
+          <div className="stage-perspective relative z-10 h-[530px] overflow-visible sm:h-[660px] lg:h-[720px]">
+            <div className="phone-wrap absolute inset-x-0 top-2 mx-auto h-[640px] w-[420px] max-w-full preserve-3d sm:top-5 sm:w-[560px]">
+              <div className="ring-a absolute left-1/2 top-[48%] h-[350px] w-[350px] rounded-full border border-[#7f1d3a]/22 sm:h-[480px] sm:w-[480px]" />
+              <div className="ring-b absolute left-1/2 top-[48%] h-[460px] w-[460px] rounded-full border border-[#f0b45b]/32 sm:h-[610px] sm:w-[610px]" />
 
-              <div className="phone-magic preserve-3d relative z-30 w-[285px] sm:w-[326px]">
-                <div className="relative aspect-[9/18.7] rounded-[48px] border border-white/30 bg-gradient-to-br from-[#120d18] via-[#24180f] to-[#0d1022] p-3 shadow-[0_55px_120px_rgba(45,32,72,.42)]">
+              <div className="phone-stage preserve-3d absolute left-1/2 top-20 z-30 w-[282px] -translate-x-1/2 sm:top-24 sm:w-[335px]">
+                <div className="relative aspect-[9/18.4] rounded-[48px] border border-white/25 bg-gradient-to-br from-[#120b10] via-[#2c1420] to-[#120b10] p-3 shadow-[0_54px_120px_rgba(48,19,31,.45)]">
                   <div className="absolute left-1/2 top-3 z-20 h-5 w-24 -translate-x-1/2 rounded-b-2xl bg-black/45" />
-                  <div className="shine-card relative h-full overflow-hidden rounded-[38px] bg-[#fff8ee] shadow-[inset_0_0_30px_rgba(0,0,0,.06)]">
-                    <div className="relative h-[38%] overflow-hidden bg-[radial-gradient(circle_at_24%_18%,#fff7e8_0,#d9b47e_32%,#7b4bff_76%,#2d1b57_100%)] p-5 text-white">
-                      <div className="absolute -left-12 -top-12 h-36 w-36 rounded-full bg-white/20 blur-2xl" />
-                      <div className="absolute bottom-3 right-4 h-24 w-24 rounded-full bg-[#c7a46a]/35 blur-xl" />
+                  <div className="shine relative h-full overflow-hidden rounded-[38px] bg-[#fff9ef] shadow-[inset_0_0_35px_rgba(0,0,0,.06)]">
+                    <div className="relative h-[37%] overflow-hidden bg-[radial-gradient(circle_at_25%_15%,#fff0d1_0,#e5a94f_34%,#8a2946_74%,#32111f_100%)] p-5 text-white">
+                      <div className="absolute -left-12 -top-12 h-36 w-36 rounded-full bg-white/24 blur-2xl" />
                       <div className="relative flex items-center justify-between text-xs font-black">
                         <span>لقطة جاهزة</span>
                         <span className="rounded-full bg-white/20 px-3 py-1 backdrop-blur-md">Live</span>
                       </div>
-                      <div className="relative mt-8 grid place-items-center">
-                        <div className="tiny-bounce grid h-24 w-24 place-items-center rounded-[32px] bg-white/18 text-5xl shadow-2xl backdrop-blur-md">🛍️</div>
+                      <div className="relative mt-7 grid place-items-center">
+                        <div className="grid h-24 w-24 place-items-center rounded-[32px] bg-white/18 text-5xl shadow-2xl backdrop-blur-md">🛍️</div>
                       </div>
                     </div>
 
                     <div className="space-y-3 p-4">
-                      <div className="builder-1 opacity-0">
-                        <p className="text-xs font-black text-indigo-600">عرض اليوم</p>
+                      <div className="build-1 opacity-0">
+                        <p className="text-xs font-black text-[#7f1d3a]">عرض اليوم</p>
                         <h3 className="text-lg font-black text-[#21180f]">ساعة ذكية فاخرة</h3>
                         <p className="mt-1 text-xs leading-5 text-[#7d6b57]">مقاومة للماء، بطارية طويلة، ومتابعة صحية يومية.</p>
                       </div>
 
-                      <div className="builder-2 grid grid-cols-3 gap-2 opacity-0">
-                        <div className="rounded-2xl bg-indigo-50 p-2 text-center text-[10px] font-black text-indigo-700">ضمان</div>
-                        <div className="rounded-2xl bg-[#f3e4cf] p-2 text-center text-[10px] font-black text-[#5c4026]">توصيل</div>
-                        <div className="rounded-2xl bg-[#f3e4cf] p-2 text-center text-[10px] font-black text-[#5c4026]">دعم</div>
+                      <div className="build-2 grid grid-cols-3 gap-2 opacity-0">
+                        <div className="rounded-2xl bg-[#f7e9d2] p-2 text-center text-[10px] font-black text-[#7a4a24]">ضمان</div>
+                        <div className="rounded-2xl bg-[#f7e9d2] p-2 text-center text-[10px] font-black text-[#7a4a24]">توصيل</div>
+                        <div className="rounded-2xl bg-[#f7e9d2] p-2 text-center text-[10px] font-black text-[#7a4a24]">دعم</div>
                       </div>
 
-                      <div className="builder-3 flex items-end gap-2 opacity-0">
+                      <div className="build-3 flex items-end gap-2 opacity-0">
                         <strong className="text-2xl text-[#21180f]">199 ر.س</strong>
                         <span className="pb-1 text-xs text-[#9a8977] line-through">350 ر.س</span>
                       </div>
 
-                      <div className="builder-4 space-y-2 pt-2 opacity-0">
+                      <div className="build-4 space-y-2 pt-2 opacity-0">
                         <div className="grid h-10 place-items-center rounded-2xl bg-[#2f8f55] text-sm font-black text-white shadow-lg shadow-green-900/10">واتساب مباشر</div>
-                        <div className="grid h-10 place-items-center rounded-2xl bg-gradient-to-l from-indigo-600 to-[#3f2b18] text-sm font-black text-white shadow-lg shadow-indigo-900/20">رابط الدفع</div>
+                        <div className="grid h-10 place-items-center rounded-2xl bg-gradient-to-l from-[#7f1d3a] to-[#3c1f12] text-sm font-black text-white shadow-lg shadow-[#7f1d3a]/20">رابط الدفع</div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="glass float-one absolute right-0 top-16 z-40 w-52 rounded-[30px] p-4 shadow-[0_28px_70px_rgba(68,48,118,.18)] sm:right-10" style={{ transform: 'rotateY(18deg) rotateX(6deg) translateZ(90px)' }}>
-                <p className="mb-3 text-xs font-black text-indigo-600">مميزات المنتج</p>
-                <div className="space-y-2 text-sm font-bold text-[#5f4b36]">
-                  <p>✓ توصيل سريع</p>
-                  <p>✓ ضمان واضح</p>
-                  <p>✓ عرض محدود</p>
-                </div>
+              <div className="glass float-soft absolute right-2 top-8 z-40 w-44 rounded-[28px] p-4 shadow-[0_28px_70px_rgba(48,19,31,.16)] sm:right-16 sm:top-16" style={{ transform: 'rotateY(16deg) rotateX(5deg) translateZ(85px)' }}>
+                <p className="mb-2 text-xs font-black text-[#7f1d3a]">مميزات المنتج</p>
+                <div className="space-y-1.5 text-sm font-bold text-[#5f4b36]"><p>✓ توصيل سريع</p><p>✓ ضمان واضح</p><p>✓ عرض محدود</p></div>
               </div>
 
-              <div className="glass float-two absolute bottom-28 left-0 z-40 w-56 rounded-[30px] p-4 shadow-[0_28px_70px_rgba(47,143,85,.18)] sm:left-8" style={{ transform: 'rotateY(-18deg) rotateX(5deg) translateZ(70px)' }}>
-                <p className="mb-3 text-xs font-black text-[#2f8f55]">زر واتساب</p>
-                <div className="grid h-12 place-items-center rounded-2xl bg-[#2f8f55] text-sm font-black text-white">تواصل مباشر</div>
+              <div className="glass float-slow absolute left-2 top-28 z-40 w-44 rounded-[28px] p-4 shadow-[0_28px_70px_rgba(47,143,85,.16)] sm:left-10 sm:top-40" style={{ transform: 'rotateY(-17deg) rotateX(5deg) translateZ(70px)' }}>
+                <p className="mb-2 text-xs font-black text-[#2f8f55]">زر واتساب</p>
+                <div className="grid h-11 place-items-center rounded-2xl bg-[#2f8f55] text-sm font-black text-white">تواصل مباشر</div>
               </div>
 
-              <div className="glass float-three absolute left-14 top-6 z-20 w-48 rounded-[30px] p-4 shadow-[0_28px_70px_rgba(139,94,52,.16)]" style={{ transform: 'rotateY(-10deg) rotateX(6deg) translateZ(50px)' }}>
-                <p className="mb-2 text-xs font-black text-[#8b5e34]">رابط جاهز</p>
-                <div className="truncate rounded-2xl bg-white/65 px-3 py-3 text-xs font-black text-[#6d5943]">laqta-page.vercel.app/l/offer</div>
+              <div className="glass float-soft absolute left-8 top-0 z-20 w-40 rounded-[28px] p-4 shadow-[0_28px_70px_rgba(127,29,58,.13)] sm:left-28" style={{ animationDelay: '.8s' }}>
+                <p className="mb-2 text-xs font-black text-[#7f1d3a]">رابط جاهز</p>
+                <div className="truncate rounded-2xl bg-white/65 px-3 py-3 text-xs font-black text-[#6d5943]">laqta.app/l/offer</div>
               </div>
 
-              <div className="glass float-one absolute bottom-12 right-6 z-20 w-48 rounded-[30px] p-4 shadow-[0_28px_70px_rgba(199,164,106,.18)]" style={{ animationDelay: '1.1s', transform: 'rotateY(10deg) rotateX(-5deg) translateZ(42px)' }}>
+              <div className="glass float-slow absolute bottom-20 right-3 z-20 w-44 rounded-[28px] p-4 shadow-[0_28px_70px_rgba(199,164,106,.18)] sm:right-28" style={{ animationDelay: '1.1s' }}>
                 <p className="mb-3 text-xs font-black text-[#8b5e34]">صورة المنتج</p>
-                <div className="grid h-28 place-items-center rounded-[24px] bg-[radial-gradient(circle_at_30%_20%,#fff_0,#ecd2aa_38%,#7b4bff_100%)] text-5xl">📸</div>
-              </div>
-
-              <div className="glass float-two absolute bottom-0 left-1/2 z-10 w-44 -translate-x-1/2 rounded-[30px] p-4 shadow-[0_28px_70px_rgba(47,43,24,.13)]" style={{ animationDelay: '.7s' }}>
-                <p className="mb-2 text-xs font-black text-indigo-600">مؤشر جاهزية</p>
-                <div className="h-2 overflow-hidden rounded-full bg-white/70">
-                  <div className="h-full w-[86%] rounded-full bg-gradient-to-l from-indigo-600 to-[#c7a46a]" />
-                </div>
-                <p className="mt-2 text-xs font-black text-[#6d5943]">86% صفحة مكتملة</p>
+                <div className="grid h-24 place-items-center rounded-[24px] bg-[radial-gradient(circle_at_30%_20%,#fff_0,#f3d39a_38%,#8a2946_100%)] text-5xl">📸</div>
               </div>
             </div>
           </div>
         </section>
 
-        <section id="how" className="laqta-shell relative z-10 py-14">
-          <div className="mb-8 max-w-2xl">
-            <p className="mb-3 text-sm font-black text-indigo-600">آلية العمل</p>
+        <section id="how" className="laqta-shell relative z-10 py-10 sm:py-14">
+          <div className="mb-7 text-center lg:text-right">
+            <p className="mb-3 text-sm font-black text-[#7f1d3a]">آلية العمل</p>
             <h2 className="text-4xl font-black leading-tight sm:text-5xl">من الفكرة إلى رابط جاهز.</h2>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
             {steps.map(([num, title, text]) => (
-              <div key={num} className="glass rounded-[34px] p-7 transition duration-300 hover:-translate-y-2 hover:shadow-glow">
-                <span className="mb-8 inline-grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-indigo-600 to-[#3f2b18] font-black text-white">{num}</span>
+              <div key={num} className="rounded-[36px] bg-white/70 p-7 shadow-[0_22px_70px_rgba(70,45,25,.13)] backdrop-blur-xl transition duration-300 hover:-translate-y-2">
+                <span className="mb-7 inline-grid h-14 w-14 place-items-center rounded-[20px] bg-gradient-to-br from-[#7f1d3a] to-[#3c1f12] font-black text-white">{num}</span>
                 <h3 className="mb-3 text-2xl font-black">{title}</h3>
-                <p className="leading-8 text-[#6d5943]">{text}</p>
+                <p className="text-lg leading-8 text-[#72583e]">{text}</p>
               </div>
             ))}
           </div>
         </section>
 
-        <section className="laqta-shell relative z-10 py-10">
-          <div className="glass grid gap-8 overflow-hidden rounded-[42px] p-8 sm:p-12 lg:grid-cols-[1fr_auto] lg:items-center">
+        <section className="laqta-shell relative z-10 py-8">
+          <div className="grid gap-6 overflow-hidden rounded-[38px] bg-[#21180f] p-8 text-white shadow-[0_28px_90px_rgba(33,24,15,.26)] sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
-              <p className="mb-3 text-sm font-black text-indigo-600">إطلاق تجريبي</p>
+              <p className="mb-3 text-sm font-black text-[#f0b45b]">إطلاق تجريبي</p>
               <h2 className="text-3xl font-black leading-tight sm:text-5xl">جرّبها الآن وخلّنا نسمع رأيك.</h2>
-              <p className="mt-4 max-w-2xl text-lg leading-9 text-[#6d5943]">
-                التجربة مخصصة لقياس الاحتياج الحقيقي لأصحاب المتاجر الصغيرة، البراندات، العقار، العيادات، والخدمات.
-              </p>
+              <p className="mt-4 max-w-2xl text-lg leading-9 text-white/70">التجربة مخصصة لقياس الاحتياج الحقيقي لأصحاب المتاجر الصغيرة، البراندات، العقار، العيادات، والخدمات.</p>
             </div>
-            <a href="/create" className="btn-primary whitespace-nowrap text-base font-bold">ابدأ التجربة</a>
+            <a href="/create" className="grid h-14 place-items-center rounded-full bg-white px-8 text-base font-black text-[#21180f]">ابدأ التجربة</a>
           </div>
         </section>
       </main>
