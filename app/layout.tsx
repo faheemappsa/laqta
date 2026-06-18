@@ -1,11 +1,19 @@
 import type { Metadata, Viewport } from 'next';
+import { IBM_Plex_Sans_Arabic } from 'next/font/google';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import './globals.css';
+
+const arabicFont = IBM_Plex_Sans_Arabic({
+  subsets: ['arabic'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-sans',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'لقطة — اصنع صفحة بيع فاخرة خلال دقائق',
   description: 'لقطة من مُلهمات: منصة عربية لإنشاء صفحات بيع فاخرة للمنتجات والخدمات والعيادات والعقار خلال دقائق.',
-  metadataBase: new URL('https://laqta.vercel.app'),
+  metadataBase: new URL('https://laqta-six.vercel.app'),
   openGraph: {
     title: 'لقطة — صفحة بيع فاخرة خلال دقائق',
     description: 'حوّل منتجك أو خدمتك إلى صفحة جذابة قابلة للمشاركة والطلب فورًا.',
@@ -28,7 +36,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="ar" dir="rtl" className={arabicFont.variable}>
       <body>{children}</body>
       {process.env.NEXT_PUBLIC_GA_ID ? <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} /> : null}
     </html>
