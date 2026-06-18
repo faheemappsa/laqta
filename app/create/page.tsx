@@ -12,9 +12,8 @@ const types: { value: LaqtaType; label: string }[] = [
   { value: 'personal_brand', label: 'براند' },
 ];
 
-function makeSlug(value: string) {
-  const base = value.trim().toLowerCase().replace(/[^a-z0-9\u0600-\u06ff]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 42);
-  return `${base || 'laqta'}-${Math.random().toString(36).slice(2, 7)}`;
+function makeSlug() {
+  return `laqta-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
 function cleanWhatsApp(value: string) {
@@ -37,7 +36,7 @@ export default function CreatePage() {
   const [competitorEdge, setCompetitorEdge] = useState('');
   const [ctaType, setCtaType] = useState<'whatsapp' | 'link'>('whatsapp');
   const [ctaValue, setCtaValue] = useState('');
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [createdUrl, setCreatedUrl] = useState('');
   const [error, setError] = useState('');
@@ -46,11 +45,18 @@ export default function CreatePage() {
     event.preventDefault();
     setError('');
     setCreatedUrl('');
+
+    if (!title.trim() || !description.trim() || !ctaValue.trim()) {
+      setError('العنوان والوصف ورقم الطلب مطلوبة.');
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      const slug = makeSlug(title);
-      const mainImageUrl = imageFile ? await uploadLandingImage(imageFile, slug) : null;
+      const slug = makeSlug();
+      const files = imageFiles.slice(0, 3);
+      const galleryUrls = await Promise.all(files.map((file, index) => uploadLandingImage(file, slug, index + 1)));
       const row = await createLanding({
         slug,
         business_type: businessType,
@@ -60,7 +66,8 @@ export default function CreatePage() {
         price: price.trim() || null,
         features: [featureOne, featureTwo, featureThree].map((item) => item.trim()).filter(Boolean),
         competitor_edge: competitorEdge.trim() || 'صفحة مرتبة، عرض واضح، وطلب مباشر بدون تعقيد.',
-        main_image_url: mainImageUrl,
+        main_image_url: galleryUrls[0] || null,
+        gallery_urls: galleryUrls,
         cta_type: ctaType,
         cta_value: ctaType === 'whatsapp' ? cleanWhatsApp(ctaValue) : ctaValue.trim(),
       });
@@ -83,7 +90,7 @@ export default function CreatePage() {
         <div className="glass rounded-[36px] p-6 lg:sticky lg:top-6 lg:self-start">
           <p className="mb-3 text-sm font-black text-[#8b5e34]">منتج لقطة</p>
           <h1 className="text-4xl font-black leading-tight sm:text-6xl">اصنع صفحة بيع فاخرة خلال دقائق.</h1>
-          <p className="mt-4 text-lg leading-9 text-[#6d5943]">عبّي بيانات بسيطة، ارفع صورة، وخذ رابط جاهز ترسله للعميل أو تستخدمه في إعلانك.</p>
+          <p className="mt-4 text-lg leading-9 text-[#6d5943]">عبّي بيانات بسيطة، ارفع حتى ٣ صور، وخذ رابط جاهز ترسله للعميل أو تستخدمه في إعلانك.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="glass rounded-[36px] p-5 sm:p-7">
@@ -100,7 +107,11 @@ export default function CreatePage() {
             <input className="input" value={title} onChange={(event) => setTitle(event.target.value)} placeholder="عنوان العرض" required />
             <textarea className="input min-h-28 resize-none" value={description} onChange={(event) => setDescription(event.target.value)} placeholder="وصف مختصر" required />
             <input className="input" value={price} onChange={(event) => setPrice(event.target.value)} placeholder="السعر أو العرض" />
-            <input className="input" type="file" accept="image/*" onChange={(event) => setImageFile(event.target.files?.[0] ?? null)} />
+            <label className="grid gap-2 rounded-[24px] bg-white/50 p-3 text-sm font-bold text-[#6d5943]">
+              صور المنتج أو الخدمة: اختر حتى ٣ صور
+              <input className="input" type="file" accept="image/*" multiple onChange={(event) => setImageFiles(Array.from(event.target.files ?? []).slice(0, 3))} />
+              {imageFiles.length ? <span className="text-xs text-[#8b5e34]">تم اختيار {imageFiles.length} صورة</span> : null}
+            </label>
             <input className="input" value={featureOne} onChange={(event) => setFeatureOne(event.target.value)} placeholder="الميزة الأولى" />
             <input className="input" value={featureTwo} onChange={(event) => setFeatureTwo(event.target.value)} placeholder="الميزة الثانية" />
             <input className="input" value={featureThree} onChange={(event) => setFeatureThree(event.target.value)} placeholder="الميزة الثالثة" />
@@ -113,7 +124,13 @@ export default function CreatePage() {
             <input className="input" value={ctaValue} onChange={(event) => setCtaValue(event.target.value)} placeholder={ctaType === 'whatsapp' ? 'رقم الواتساب' : 'رابط الدفع'} required />
 
             {error ? <div className="rounded-3xl bg-red-50 p-4 text-sm font-bold text-red-700">{error}</div> : null}
-            {createdUrl ? <a className="rounded-3xl bg-green-50 p-4 text-sm font-bold text-green-800 underline" href={createdUrl} target="_blank" rel="noreferrer">{createdUrl}</a> : null}
+            {createdUrl ? (
+              <div className="rounded-3xl bg-green-50 p-4 text-sm font-bold text-green-800">
+                <p className="mb-2">تم إنشاء اللقطة بنجاح:</p>
+                <a className="block break-all underline" href={createdUrl} target="_blank" rel="noreferrer">{createdUrl}</a>
+                <button type="button" className="mt-3 rounded-full bg-green-700 px-4 py-2 text-white" onClick={() => navigator.clipboard?.writeText(createdUrl)}>نسخ الرابط</button>
+              </div>
+            ) : null}
 
             <button className="btn-primary min-h-14" disabled={isLoading} type="submit">{isLoading ? 'جاري صناعة اللقطة...' : 'اصنع لقطتي'}</button>
           </div>
