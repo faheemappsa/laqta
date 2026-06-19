@@ -99,7 +99,8 @@ export default function CreatePage() {
       });
       const url = `${window.location.origin}/l/${row.slug}`;
       const saved = JSON.parse(window.localStorage.getItem('laqta_recent_landings') || '[]');
-      window.localStorage.setItem('laqta_recent_landings', JSON.stringify([{ slug: row.slug, title: row.title, brandName: row.brand_name || 'لقطة', landingUrl: url, createdAt: new Date().toISOString() }, ...saved].slice(0, 8)));
+      const ownerName = row.brand_name || 'لقطة';
+      window.localStorage.setItem('laqta_recent_landings', JSON.stringify([{ slug: row.slug, title: row.title, brandName: row.brand_name || 'لقطة', ownerName, landingUrl: url, createdAt: new Date().toISOString() }, ...saved].slice(0, 8)));
       setCreatedUrl(url);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'تعذر إنشاء اللقطة.');
