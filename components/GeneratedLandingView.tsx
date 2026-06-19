@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import type { LaqtaData } from '../types';
 
-type LandingData = LaqtaData & { galleryUrls?: string[] };
+type LandingData = LaqtaData & { galleryUrls?: string[]; slug?: string };
 
 const labels: Record<LaqtaData['type'], { title: string; icon: string; badge: string; bg: string; accent: string }> = {
   product: { title: 'منتج فاخر', icon: '🛍️', badge: 'عرض منتج', bg: 'from-[#0a0a0a] via-[#1a0e14] to-[#0d0b08]', accent: '#d49b3b' },
@@ -13,7 +13,9 @@ const labels: Record<LaqtaData['type'], { title: string; icon: string; badge: st
   personal_brand: { title: 'براند شخصي', icon: '👤', badge: 'حضور احترافي', bg: 'from-[#0a0a0a] via-[#140d15] to-[#0d0b0e]', accent: '#c4496e' },
 };
 
-function ctaHref(data: LaqtaData) {
+function ctaHref(data: LandingData) {
+  if (data.slug) return `/go/${data.slug}`;
+
   if (data.ctaType === 'whatsapp') {
     const clean = data.ctaValue.replace(/[^0-9]/g, '');
     const message = encodeURIComponent(`مرحبًا، وصلتني صفحة ${data.brandName} من لقطة وأرغب بالتفاصيل`);
