@@ -157,6 +157,7 @@ export default function CreatePage() {
             {createdUrl ? (
               <div className="rounded-[32px] bg-green-50 p-4 text-sm font-bold text-green-900 ring-1 ring-green-200">
                 <p className="mb-2 text-lg">تم إنشاء اللقطة بنجاح ✅</p>
+                <p className="mb-2 text-sm text-green-800">جاهزة للفتح والمشاركة الآن.</p>
                 <a className="block break-all rounded-2xl bg-white/80 p-3 underline" href={createdUrl} target="_blank" rel="noreferrer">{createdUrl}</a>
                 <div className="mt-4 grid gap-2 sm:grid-cols-3">
                   <a className="grid min-h-12 place-items-center rounded-full bg-[#2f8f55] px-4 py-2 text-center text-white" href={createdUrl} target="_blank" rel="noreferrer">فتح اللقطة</a>
