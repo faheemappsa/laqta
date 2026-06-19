@@ -162,8 +162,9 @@ export default function CreatePage() {
                 <p className="mb-2 text-lg">تم إنشاء اللقطة بنجاح ✅</p>
                 <p className="mb-2 text-sm text-green-800">حفظناها لك في لوحة لقطتك على هذا الجهاز.</p>
                 <a className="block break-all rounded-2xl bg-white/80 p-3 underline" href={createdUrl} target="_blank" rel="noreferrer">{createdUrl}</a>
-                <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                <div className="mt-4 grid gap-2 sm:grid-cols-4">
                   <a className="grid min-h-12 place-items-center rounded-full bg-[#2f8f55] px-4 py-2 text-center text-white" href={createdUrl} target="_blank" rel="noreferrer">فتح اللقطة</a>
+                  <a className="grid min-h-12 place-items-center rounded-full bg-[#f0b45b] px-4 py-2 text-center text-[#21180f]" href="/test-report">لوحة لقطتك</a>
                   <button type="button" className="rounded-full bg-[#3f2b18] px-4 py-2 text-white" onClick={handleCopy}>{copied ? 'تم النسخ' : 'نسخ الرابط'}</button>
                   <button type="button" className="rounded-full bg-white px-4 py-2 text-[#3f2b18] ring-1 ring-black/10" onClick={resetForm}>إنشاء لقطة جديدة</button>
                 </div>
