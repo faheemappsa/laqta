@@ -7,6 +7,7 @@ type StoredLanding = {
   slug: string;
   title: string;
   brandName: string;
+  ownerName?: string;
   landingUrl: string;
   createdAt: string;
 };
@@ -26,12 +27,13 @@ function RecentLaqtasPanel() {
   if (!items.length) return null;
 
   const first = items[0];
+  const displayName = first.ownerName || first.brandName;
 
   return (
     <section className="relative z-30 bg-[#21180f] px-4 py-4 text-white">
       <div className="mx-auto grid max-w-6xl gap-3 rounded-[28px] border border-white/10 bg-white/8 p-4 backdrop-blur-xl sm:grid-cols-[1fr_auto] sm:items-center">
         <div>
-          <p className="text-sm font-bold text-white/50">ياهلا {first.brandName} 👋</p>
+          <p className="text-sm font-bold text-white/50">ياهلا {displayName} 👋</p>
           <h2 className="mt-1 text-xl font-black">عندك لقطة جاهزة: {first.title}</h2>
           <p className="mt-1 text-sm leading-6 text-white/55">حفظناها لك على هذا الجهاز. تقدر ترجع لها، تعرضها، أو تصنع لقطة جديدة.</p>
         </div>
