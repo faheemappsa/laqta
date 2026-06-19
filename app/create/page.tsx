@@ -39,6 +39,8 @@ export default function CreatePage() {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [createdUrl, setCreatedUrl] = useState('');
+  const [ownerName, setOwnerName] = useState('');
+  const [ownerSaved, setOwnerSaved] = useState(false);
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
 
@@ -55,6 +57,8 @@ export default function CreatePage() {
     setCtaValue('');
     setImageFiles([]);
     setCreatedUrl('');
+    setOwnerName('');
+    setOwnerSaved(false);
     setCopied(false);
     setError('');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -66,11 +70,22 @@ export default function CreatePage() {
     setCopied(true);
   }
 
+  function saveOwnerName() {
+    const name = ownerName.trim();
+    if (!name) return;
+    const saved = JSON.parse(window.localStorage.getItem('laqta_recent_landings') || '[]');
+    if (!Array.isArray(saved) || !saved.length) return;
+    saved[0] = { ...saved[0], ownerName: name };
+    window.localStorage.setItem('laqta_recent_landings', JSON.stringify(saved));
+    setOwnerSaved(true);
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError('');
     setCreatedUrl('');
     setCopied(false);
+    setOwnerSaved(false);
 
     if (!title.trim() || !description.trim() || !ctaValue.trim()) {
       setError('العنوان والوصف ورقم الطلب مطلوبة.');
@@ -99,8 +114,9 @@ export default function CreatePage() {
       });
       const url = `${window.location.origin}/l/${row.slug}`;
       const saved = JSON.parse(window.localStorage.getItem('laqta_recent_landings') || '[]');
-      const ownerName = row.brand_name || 'لقطة';
-      window.localStorage.setItem('laqta_recent_landings', JSON.stringify([{ slug: row.slug, title: row.title, brandName: row.brand_name || 'لقطة', ownerName, landingUrl: url, createdAt: new Date().toISOString() }, ...saved].slice(0, 8)));
+      const defaultOwner = row.brand_name || 'لقطة';
+      window.localStorage.setItem('laqta_recent_landings', JSON.stringify([{ slug: row.slug, title: row.title, brandName: row.brand_name || 'لقطة', ownerName: defaultOwner, landingUrl: url, createdAt: new Date().toISOString() }, ...saved].slice(0, 8)));
+      setOwnerName(defaultOwner);
       setCreatedUrl(url);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'تعذر إنشاء اللقطة.');
@@ -161,7 +177,11 @@ export default function CreatePage() {
             {createdUrl ? (
               <div className="rounded-[32px] bg-green-50 p-4 text-sm font-bold text-green-900 ring-1 ring-green-200">
                 <p className="mb-2 text-lg">تم إنشاء اللقطة بنجاح ✅</p>
-                <p className="mb-2 text-sm text-green-800">حفظناها لك في لوحة لقطتك على هذا الجهاز.</p>
+                <div className="mb-3 grid gap-2 rounded-3xl bg-white/70 p-3">
+                  <p className="text-xs text-green-800">وش تحب نناديك؟</p>
+                  <input className="input text-center" value={ownerName} onChange={(event) => setOwnerName(event.target.value)} placeholder="لقبك أو اسم البراند" />
+                  <button type="button" className="rounded-full bg-[#2f8f55] px-4 py-2 text-white" onClick={saveOwnerName}>{ownerSaved ? 'تم الحفظ' : 'حفظ في لوحة لقطتك'}</button>
+                </div>
                 <a className="block break-all rounded-2xl bg-white/80 p-3 underline" href={createdUrl} target="_blank" rel="noreferrer">{createdUrl}</a>
                 <div className="mt-4 grid gap-2 sm:grid-cols-4">
                   <a className="grid min-h-12 place-items-center rounded-full bg-[#2f8f55] px-4 py-2 text-center text-white" href={createdUrl} target="_blank" rel="noreferrer">فتح اللقطة</a>
