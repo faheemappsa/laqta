@@ -6,6 +6,7 @@ type StoredLanding = {
   slug: string;
   title: string;
   brandName: string;
+  ownerName?: string;
   landingUrl: string;
   createdAt: string;
 };
@@ -31,7 +32,7 @@ export default function Page() {
         {item ? (
           <div className="mt-6">
             <p className="text-sm font-black text-[#8b5e34]">لوحة لقطتك</p>
-            <h1 className="mt-2 text-4xl font-black">{item.brandName}</h1>
+            <h1 className="mt-2 text-4xl font-black">{item.ownerName || item.brandName}</h1>
             <p className="mt-3 text-lg leading-8 text-[#6d5943]">{item.title}</p>
             <a className="mt-4 block break-all rounded-2xl bg-[#f7ead8] p-4 text-sm font-bold underline" href={item.landingUrl} target="_blank" rel="noreferrer">{item.landingUrl}</a>
             <div className="mt-5 grid gap-2 sm:grid-cols-2">
