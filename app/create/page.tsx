@@ -97,7 +97,10 @@ export default function CreatePage() {
         cta_type: ctaType,
         cta_value: ctaType === 'whatsapp' ? cleanWhatsApp(ctaValue) : ctaValue.trim(),
       });
-      setCreatedUrl(`${window.location.origin}/l/${row.slug}`);
+      const url = `${window.location.origin}/l/${row.slug}`;
+      const saved = JSON.parse(window.localStorage.getItem('laqta_recent_landings') || '[]');
+      window.localStorage.setItem('laqta_recent_landings', JSON.stringify([{ slug: row.slug, title: row.title, brandName: row.brand_name || 'لقطة', landingUrl: url, createdAt: new Date().toISOString() }, ...saved].slice(0, 8)));
+      setCreatedUrl(url);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'تعذر إنشاء اللقطة.');
     } finally {
@@ -157,7 +160,7 @@ export default function CreatePage() {
             {createdUrl ? (
               <div className="rounded-[32px] bg-green-50 p-4 text-sm font-bold text-green-900 ring-1 ring-green-200">
                 <p className="mb-2 text-lg">تم إنشاء اللقطة بنجاح ✅</p>
-                <p className="mb-2 text-sm text-green-800">جاهزة للفتح والمشاركة الآن.</p>
+                <p className="mb-2 text-sm text-green-800">حفظناها لك في لوحة لقطتك على هذا الجهاز.</p>
                 <a className="block break-all rounded-2xl bg-white/80 p-3 underline" href={createdUrl} target="_blank" rel="noreferrer">{createdUrl}</a>
                 <div className="mt-4 grid gap-2 sm:grid-cols-3">
                   <a className="grid min-h-12 place-items-center rounded-full bg-[#2f8f55] px-4 py-2 text-center text-white" href={createdUrl} target="_blank" rel="noreferrer">فتح اللقطة</a>
