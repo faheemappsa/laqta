@@ -16,6 +16,7 @@ type PageProps = {
 
 type LandingPageData = LaqtaData & {
   galleryUrls?: string[];
+  slug?: string;
 };
 
 function toLaqtaData(row: Awaited<ReturnType<typeof getLandingBySlug>>): LandingPageData | null {
@@ -25,6 +26,7 @@ function toLaqtaData(row: Awaited<ReturnType<typeof getLandingBySlug>>): Landing
   const galleryUrls = Array.isArray(row.gallery_urls) ? row.gallery_urls : [];
 
   return {
+    slug: row.slug,
     type: row.business_type,
     brandName: row.brand_name || 'لقطة',
     title: row.title,
