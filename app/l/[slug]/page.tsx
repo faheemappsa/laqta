@@ -5,6 +5,9 @@ import type { LaqtaData } from '../../../types';
 
 export const dynamic = 'force-dynamic';
 
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
 type PageProps = {
   params: {
     slug: string;
@@ -38,6 +41,23 @@ function toLaqtaData(row: Awaited<ReturnType<typeof getLandingBySlug>>): Landing
   };
 }
 
+async function trackView(slug: string, currentViews: number) {
+  if (!SUPABASE_URL || !SUPABASE_KEY) return;
+  const baseUrl = SUPABASE_URL.replace(/\/$/, '');
+
+  await fetch(`${baseUrl}/rest/v1/landings?slug=eq.${encodeURIComponent(slug)}`, {
+    method: 'PATCH',
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify({ views_count: Number(currentViews || 0) + 1 }),
+    cache: 'no-store',
+  }).catch(() => undefined);
+}
+
 export async function generateMetadata({ params }: PageProps) {
   const row = await getLandingBySlug(params.slug);
 
@@ -62,7 +82,9 @@ export default async function LandingPage({ params }: PageProps) {
   const row = await getLandingBySlug(params.slug);
   const data = toLaqtaData(row);
 
-  if (!data) notFound();
+  if (!data || !row) notFound();
+
+  await trackView(row.slug, row.views_count);
 
   return <GeneratedLandingView data={data} />;
 }
